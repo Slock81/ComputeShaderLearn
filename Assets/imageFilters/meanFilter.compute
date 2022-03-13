@@ -1,0 +1,39 @@
+// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel CSMain
+
+// Create a RenderTexture with enableRandomWrite flag and set it
+// with cs.SetTexture
+RWTexture2D<float4> Input;
+RWTexture2D<float4> Result;
+uint kernelSize;
+uint numPixelsX;
+uint numPixelsY;
+
+[numthreads(8,8,1)]
+void CSMain (uint3 id : SV_DispatchThreadID)
+{
+    // TODO: insert actual code here!
+    float4 currVal = Result[id.xy];
+    uint targetX = id.x;
+    uint targetY = id.y;
+    //Bounding box of filter
+    uint startX = max(0,(int)targetX-(int)kernelSize);
+    uint endX = min(numPixelsX-1,targetX+kernelSize);
+    uint startY = max(0,(int)targetY-(int)kernelSize);
+    uint endY = min(numPixelsY-1,targetY+kernelSize);
+
+    int numVals = 0 ;//We're not gauranteed to use kernelSize^2 pixels due to edge conditions
+    float4 sum = float4(0.0,0.0,0.0,0.0);
+    for(uint y=startY; y<=endY; y++)
+    {
+        for(uint x=startX; x<=endX; x++)
+        {
+            float2 currIdx = float2(x,y);
+            sum+=Input[currIdx];
+            numVals++;
+        }
+    }
+    float4 updatedVal = sum/numVals;
+    updatedVal.w = 1;
+    Result[id.xy] = updatedVal;
+}
