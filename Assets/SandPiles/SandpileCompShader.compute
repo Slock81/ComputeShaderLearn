@@ -1,0 +1,76 @@
+// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel CSMain
+
+
+// Create a RenderTexture with enableRandomWrite flag and set it
+// with cs.SetTexture
+RWTexture2D<float4> Result;
+RWStructuredBuffer<int> inputSandGrid;
+RWStructuredBuffer<int> outputSandGrid;
+RWStructuredBuffer<float4> colors;
+int numRows;
+int numCols;
+
+[numthreads(16,16,1)]
+void CSMain (uint3 id : SV_DispatchThreadID)
+{
+    int x = id.x;
+    int y = id.y;
+
+
+    //Pile mod
+    int linearIdx = y * numRows + x;
+
+    int pileVal = inputSandGrid[linearIdx];
+    //Are we toppling
+    if(pileVal>=4)
+    {
+        pileVal-=4;
+    }
+    //I know, lots of IFs. Don't worry, it'll be fine. We could ignore the edges, but this is fine.
+    //Are any of our 4 neighbors toppling, if so we know 1/4 of their topple comes to us
+    //UP
+    
+    if(y>0)
+    {
+        int upIdx = (y-1) * numRows + x;
+        int upVal = inputSandGrid[upIdx];
+        if(upVal>=4)
+            pileVal++;
+    }
+    //Down
+    if(y<numRows-1)
+    {
+        int downIdx = (y+1) * numRows + x;
+        int downVal = inputSandGrid[downIdx];
+        if(downVal>=4)
+            pileVal++;
+    }
+    //LEFT
+    if(x>0)
+    {
+        int leftIdx = y*numRows + x -1;
+        int leftVal = inputSandGrid[leftIdx];
+        if(leftVal>=4)
+            pileVal++;
+    }
+    //RIGHT
+    if(x<numCols-1)
+    {
+        int rightIdx = y*numRows + x+1;
+        int rightVal = inputSandGrid[rightIdx];
+        if(rightVal>=4)
+            pileVal++;
+    }
+
+
+    outputSandGrid[linearIdx] = pileVal;
+
+    //DISPLAY
+    int idx = min(4,pileVal); 
+    idx = max(0,idx);
+    float4 colorVal = colors[idx];
+    Result[id.xy] = colorVal;
+}
+
+

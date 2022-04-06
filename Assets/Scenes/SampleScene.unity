@@ -891,6 +891,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   kernelSize: 3
   rawImage: {fileID: 0}
+  pristineRT: {fileID: 0}
   modRT: {fileID: 0}
   meanCompShader: {fileID: 7200000, guid: de0f618b3ca4b6d4987206262336f978, type: 3}
 --- !u!114 &1036492852
@@ -913,7 +914,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 6acc2bb9a35bafa4c86a0e207073c11f, type: 3}
+  m_Texture: {fileID: 2800000, guid: 3b3c71f583ae3e74caa889e71e9ce983, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -1108,7 +1109,7 @@ GameObject:
   - component: {fileID: 1324132216}
   - component: {fileID: 1324132215}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: WorldspaceCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1271,7 +1272,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 6acc2bb9a35bafa4c86a0e207073c11f, type: 3}
+  m_Texture: {fileID: 2800000, guid: 3b3c71f583ae3e74caa889e71e9ce983, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -1642,7 +1643,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 6acc2bb9a35bafa4c86a0e207073c11f, type: 3}
+  m_Texture: {fileID: 2800000, guid: 3b3c71f583ae3e74caa889e71e9ce983, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
